@@ -4,16 +4,33 @@ import { AwsClient } from "aws4fetch";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+if (!process.env.CF_ACCESS_KEY_ID) {
+  console.error("Environment variable 'CF_ACCESS_KEY_ID' is not set");
+  process.exit(1);
+}
+if (!process.env.CF_SECRET_ACCESS_KEY) {
+  console.error("Environment variable 'CF_SECRET_ACCESS_KEY' is not set");
+  process.exit(1);
+}
+if (!process.env.CLOUDFLARE_ACCOUNT_ID) {
+  console.error("Environment variable 'CF_ACCOUNT_ID' is not set");
+  process.exit(1);
+}
+if (!process.env.BUCKET_NAME) {
+  console.error("Environment variable 'BUCKET_NAME' is not set");
+  process.exit(1);
+}
+
 process.on('uncaughtException', (err) => {
   console.error("UNCAUGHT EXCEPTION", err, JSON.stringify(err, null, 2));
   process.exit(1);
 });
 
-const R2_URL = `https://${process.env.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com/${process.env.BUCKET_NAME}`
+const R2_URL = `https://${process.env.CF_ACCOUNT_ID}.r2.cloudflarestorage.com/${process.env.BUCKET_NAME}`
 
 const client = new AwsClient({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.CF_ACCESS_KEY_ID,
+  secretAccessKey: process.env.CF_SECRET_ACCESS_KEY,
   service: "s3",
   region: "auto",
 });
