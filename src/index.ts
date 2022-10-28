@@ -12,7 +12,7 @@ if (!process.env.CF_SECRET_ACCESS_KEY) {
   console.error("Environment variable 'CF_SECRET_ACCESS_KEY' is not set");
   process.exit(1);
 }
-if (!process.env.CLOUDFLARE_ACCOUNT_ID) {
+if (!process.env.CF_ACCOUNT_ID) {
   console.error("Environment variable 'CF_ACCOUNT_ID' is not set");
   process.exit(1);
 }
